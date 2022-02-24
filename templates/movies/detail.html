@@ -1,0 +1,133 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<!-- CONTENT --------------------------------------------------------------------------------->
+<!-- Intro Section -->
+<section class="inner-intro dark-bg overlay-dark">
+    <div class="container">
+        <div class="row title">
+            <h2 class="h2">{{ movie.title }}</h2>
+            <div class="page-breadcrumb">
+                <a href="{% url "movies:getList" %}">back</a>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- End Intro Section -->
+
+
+<!-- Options Section -->
+<section class="ptb-60 ptb-sm-30">
+    <div class="container text-left">
+        <div class="row mb-30">
+            
+            <div class="col-md-9 col-sm-8">	
+                <div class="row">
+                    <div class="col-md-6 mb-30">
+                        <div class="shop-detail-item">
+                            <!--Item Images-->
+                            <div class="sp-wrap">
+                                <img src="{{ movie.image.url }}" alt="">
+                            </div>
+                            <!-- End Item Images -->
+                            <!-- Item zoom -->
+                            <div class="sp-full-screen"><a class="cbox-gallary1" href="{{ movie.image.url }}"><i class="fa fa-search-plus"></i>Zoom</a></div>
+                            <!-- End Item zoom -->
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <p>
+                            {{ movie.overview }}
+                        </p>
+                        <div class="project-detail-block">
+                            {% if companyList %}
+                                <p>
+                                    <strong class="dark-color" style="width:auto">Production companies:</strong>
+                                    <ul>
+                                        {% for item in companyList%}
+                                        <li>- {{ item.name }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                   
+                                </p>
+                            {% endif %}
+
+                            {% if movie.popularity %}
+                                <p>
+                                    <strong class="dark-color" style="width:auto">Popularity Score</strong> {{ movie.popularity|floatformat:2 }}
+                                </p>
+                            {% endif %}
+
+                            {% if movie.release_date %}
+                                <p>
+                                    <strong class="dark-color" style="width:auto">Release date</strong> {{ movie.release_date }}
+                                </p>
+                            {% endif %}
+
+                            {% if movie.imdb_id %}
+                                <p>
+                                    <strong><a href="https://www.imdb.com/title/{{ movie.imdb_id }}/" target="_blank"><u>IMDB link</u></a></strong>
+                                </p>
+                            {% endif %}
+                        </div>
+                        <div>
+                            <form action="{% url 'movies:postMovieFavorite' movie.id %}" method="post">
+                                {% csrf_token %}
+                                {% if movieFavorite.count %}
+                                    <button name="submit" id="form-submit" type="submit" class="btn btn-md btn-black" value="login">Unlike</button>
+                                {% else %}
+                                    <button name="submit" id="form-submit" type="submit" class="btn btn-md btn-black" value="login">Like</button>
+                                {% endif %}
+                            </form>
+                            <br/>
+                            <form action="{% url 'movies:postMovieList' movie.id %}" method="post">
+                                {% csrf_token %}
+                                {% if movieList.count %}
+                                    <button name="submit" id="form-submit" type="submit" class="btn btn-md btn-black" value="login">-List</button>
+                                {% else %}
+                                    <button name="submit" id="form-submit" type="submit" class="btn btn-md btn-black" value="login">+List</button>
+                                {% endif %}
+                            </form>
+                        </div>
+                    </div>
+                </div>						
+            </div>
+
+            <div class="col-md-3 col-sm-4 mt-xs-30">
+                {% comment %} <div class="sidebar-widget">
+                    <h5>Recommend by genres</h5>
+                    <hr>
+                    <ul class="widget-post text-left">
+                        {% for item in movieListByGenres %}
+                        <li>
+                            <a href="{% url 'movies:getDetail' item.id %}" class="widget-post-media">
+                                <img src="{{ item.image.url }}">
+                            </a>
+                            <div class="widget-post-info">
+                                <h6><a href="{% url 'movies:getDetail' item.id %}">{{ item.title }}</a></h6>
+                            </div>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div> {% endcomment %}
+
+                <div class="sidebar-widget">
+                    <h5>Genres</h5>
+                    <hr>
+                    <ul class="widget-tag">
+                        {% for item in genresList %}
+                        
+                            <li><a href="{% url "movies:getList" %}?genres={{ item.name }}">{{ item.name }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+<!-- End Options Section -->
+
+<!-- End CONTENT ------------------------------------------------------------------------------>
+{% endblock %}

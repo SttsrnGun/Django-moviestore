@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <!-- Intro Section -->
+    <section class="inner-intro dark-bg overlay-dark">
+        <div class="container">
+          
+        </div>
+    </section>
+    <!-- End Intro Section -->
+<!-- Login Section -->
+<section id="Pricing" class="ptb-60 ptb-sm-30">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="border-box">
+                    <form method="post" action="{% url 'authentication:register' %}">
+                        {% csrf_token %}    
+                        {{form.as_p}}                    
+                        <button name="submit" id="form-submit" type="submit" class="btn btn-md btn-black">Submit</button>
+                        <a href="{% url 'movies:getList' %}" class="btn btn-md btn-white-line" style="color:black;">back</a>
+                        <input type="hidden" name="next" value="{{ next }}">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- End Login Section -->
+
+{% endblock %}

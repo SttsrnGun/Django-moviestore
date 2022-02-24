@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: moviestore-deployment
+  labels:
+    app: moviestore
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: moviestore
+  template:
+    metadata:
+      labels:
+        app: moviestore
+    spec:
+      containers:
+      - name: moviestore-workshop
+        image: ksttsrn/moviestore-workshop:1.6
+        ports:
+        - containerPort: 8000

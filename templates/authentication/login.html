@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% comment %} {% if next %}
+    {% if user.is_authenticated %}
+    <p>Your account doesn't have access to this page. To proceed,
+    please login with an account that has access.</p>
+    {% else %}
+    <p>Please login to see this page.</p>
+    {% endif %}
+{% endif %} {% endcomment %}
+
+    <!-- Intro Section -->
+    <section class="inner-intro dark-bg overlay-dark">
+        <div class="container">
+          
+        </div>
+    </section>
+    <!-- End Intro Section -->
+<!-- Login Section -->
+<section id="Pricing" class="ptb-60 ptb-sm-30">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="border-box">
+                    <form method="post" action="{% url 'authentication:login' %}">
+                        {% csrf_token %}    
+                        {{auth_form.as_p}}                    
+                        <button name="submit" id="form-submit" type="submit" class="btn btn-md btn-black" value="login">Sign In</button>
+                        <a href="{% url 'movies:getList' %}" class="btn btn-md btn-white-line" style="color:black;">back</a>
+                        <input type="hidden" name="next" value="{{ next }}">
+
+                        <a href="{% url 'authentication:register' %}" class="float-right">Sign up</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- End Login Section -->
+
+{% endblock %}

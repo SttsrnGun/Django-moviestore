@@ -1,0 +1,22 @@
+version: "3.9"
+services:
+  web:
+    build: .
+    volumes:
+      - .:/app
+    ports:
+      - 8000:8000
+    # environment:
+    #   - DJANGO_DB_CON_ENGINE=django.db.backends.postgresql
+    #   - DJANGO_DB_CON_NAME=postgres
+    #   - DJANGO_DB_CON_USER=postgres
+    #   - DJANGO_DB_CON_PASSWORD=postgres
+    #   - DJANGO_DB_CON_PORT=5432
+    #   - DJANGO_SECRET_KEY='whdfsmzbz&y)gzyxphw%wl5o8*ri+5hd3be9xp-!@*xj&7=11t' # https://djecrety.ir/
+    #   - DJANGO_DEBUG=False # default True
+    #   - DJANGO_ALLOWED_HOSTS=* # space splitter (" ")
+    networks:
+      - moviestorenet
+
+networks:
+  moviestorenet:

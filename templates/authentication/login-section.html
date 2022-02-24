@@ -1,0 +1,16 @@
+{% block loginSection %}
+
+    {% if is_authenticated %}
+        <li>
+            <a>{{ authenticated_user }}</a>
+        </li>
+        <li>
+            <a href="{% url 'authentication:logout' %}">Sign Out</a>
+        </li>
+    {% else %}
+        <li>
+            <a href="{% url 'authentication:login' %}">Sign In</a>
+        </li>
+    {% endif %}
+    
+{% endblock %}

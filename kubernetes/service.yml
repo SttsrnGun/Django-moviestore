@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: moviestore-service
+spec:
+  type: NodePort
+  selector:
+    app: moviestore
+  ports:
+      # By default and for convenience, the `targetPort` is set to the same value as the `port` field.
+    - port: 8000
+      targetPort: 8000

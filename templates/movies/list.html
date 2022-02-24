@@ -1,0 +1,138 @@
+{% extends 'base.html' %}
+{% block content %}
+    <!-- CONTENT --------------------------------------------------------------------------------->
+    <!-- Intro Section -->
+    {% comment %} <section class="inner-intro dark-bg overlay-dark">
+        <div class="container">
+            <div class="row title">
+                <h2 class="h2">MovieList</h2>
+                <div class="spacer-15"></div>
+                <div class="page-breadcrumb">
+                    <a href="{% url 'movies:getList' %}">Home</a>/<span>Movies</span>
+                </div>
+            </div>
+        </div>
+    </section> {% endcomment %}
+    <div class="clearfix"></div>
+    <!-- End Intro Section -->
+    <!-- Options Section -->
+    <section class="ptb-60 ptb-sm-30">
+        <div class="container">
+            <div class="row container-masonry nf-col-3">
+                {% if movie %}
+                    {% for item in page_obj %}
+                        <section class="ptb-60 ptb-sm-30">
+                            <div class="container text-left">
+                                <div class="row mtb-30">
+                                    <div class="item-box col-md-4 col-sm-4 col-sm-offset-0 col-xs-8 col-xs-offset-2 mb-sm-30">
+                                        <a href="{% url 'movies:getDetail' item.id %}">
+                                            <img alt="1" src="{{ item.image.url }}" class="item-container">
+                                        </a>
+                                    </div>
+                                    <div class="col-md-8 col-sm-8 col-xs-12">
+                                        <a href="{% url 'movies:getDetail' item.id %}">
+                                            <h6>{{ item.title }}</h6>
+                                        </a>
+                                        <p class="color">
+                                            {% if item.tagline %}
+                                            {{ item.tagline }}
+                                            {% endif %}
+                                        </p>
+                                        <p>
+                                            {{ item.overview }}
+                                            <a class="btn" href="{% url 'movies:getDetail' item.id %}">more..</a>
+                                        </p>
+                                    </div>
+                                </div>
+                                <hr>
+                            </div>
+                        </section>
+                    {% endfor %}
+
+                    <!-- Start pagination Section -->
+                    <section class="pb-60 ptb-sm-30">
+                        <span class="current">Page {{ page_obj.number }} of <a href="?page={{ page_obj.paginator.num_pages }}">{{ page_obj.paginator.num_pages }}</i></a>.</span>
+                        <div class="pagination-nav mt-60 mt-xs-30">
+                            <ul>
+                                {{ page_obj. }}
+                                {% if page_obj.has_previous %}
+                                    <li>
+                                        <a href="{% url "movies:getList" %}?page={{ 1 }}{% if keywords %}&search={{ keywords }} {% endif %}{% if genres %}&genres={{ genres }} {% endif %}">&laquo;</i></a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url "movies:getList" %}?page={{ page_obj.previous_page_number }}{% if keywords %}&search={{ keywords }} {% endif %}{% if genres %}&genres={{ genres }} {% endif %}"><i class="fa fa-angle-left"></i></a>
+                                    </li>
+                                {% endif %}
+
+                                {% for i in page_range|default_if_none:page_obj.paginator.get_elided_page_range %}
+                                    {% if page_obj.number == i %}
+                                        <li class="active"><a href="?page={{ i }}{% if keywords %}&search={{ keywords }} {% endif %}{% if genres %}&genres={{ genres }} {% endif %}">
+                                            {{ i }}<span class="sr-only">(current)</span>
+                                        </a></li>
+                                    {% else %}
+                                        {% if i == page_obj.paginator.ELLIPSIS %}
+                                            <li>
+                                                {{ i }}
+                                            </li>
+                                        {% else %}
+                                            <li><a href="?page={{ i }}{% if keywords %}&search={{ keywords }} {% endif %}{% if genres %}&genres={{ genres }} {% endif %}">
+                                                {{ i }}
+                                            </a></li>
+                                        {% endif %}
+                                    {% endif %}
+                                {% endfor %}
+
+                                {% if page_obj.has_next %}
+                                    <li>
+                                        <a href="{% url "movies:getList" %}?page={{ page_obj.next_page_number }}{% if keywords %}&search={{ keywords }} {% endif %}{% if genres %}&genres={{ genres }} {% endif %}"><i class="fa fa-angle-right"></i></a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url "movies:getList" %}?page={{ page_obj.paginator.num_pages }}{% if keywords %}&search={{ keywords }} {% endif %}{% if genres %}&genres={{ genres }} {% endif %}">&raquo;</i></a>
+                                    </li>
+                                {% endif %}
+                            </ul>
+
+                            {% if is_paginated %}
+
+                                <ul class="pagination">
+                                    {% if page_obj.has_previous %}
+                                        <li><a href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
+                                    {% else %}
+                                        <li class="disabled"><span>&laquo;</span></li>
+                                    {% endif %}
+
+                                    {% for i in paginator.page_range %}
+                                        {% if page_obj.number == i %}
+                                            <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+                                        {% else %}
+                                            <li><a href="?page={{ i }}">{{ i }}</a></li>
+                                        {% endif %}
+                                    {% endfor %}
+                                    
+                                    {% if page_obj.has_next %}
+                                        <li><a href="?page={{ page_obj.next_page_number }}">&raquo;</a></li>
+                                    {% else %}
+                                        <li class="disabled"><span>&raquo;</span></li>
+                                    {% endif %}
+                                </ul>
+                            {% endif %}
+
+                        </div>
+                    </section>
+                    <!-- End pagination Section -->
+                    
+                {% else %}
+                    <section class="ptb-60 ptb-sm-30">
+                        <div class="container">
+                            <strong>
+                                No movies are available.
+                            </strong>
+                        </div>
+                    </section>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+    <!-- End Work Detail Section -->
+    <!-- End CONTENT ------------------------------------------------------------------------------>
+{% endblock %}
