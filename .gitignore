@@ -2,3 +2,5 @@ env
 media
 recommendation
 db.sqlite3
+gcp-credential.json
+moviestore/.env

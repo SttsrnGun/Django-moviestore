@@ -1,1 +1,5 @@
-# env
+env
+media
+recommendation
+db.sqlite3
+gcp-credential.json
