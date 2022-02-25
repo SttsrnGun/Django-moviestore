@@ -11,7 +11,7 @@ class Movie(models.Model):
     imdb_id = models.CharField(blank=True, max_length=100, null=True)
     genres = models.TextField(blank=True, null=True)
     original_title = models.TextField(blank=True, null=True)
-    title = models.TextField(blank=True, null=True)
+    title = models.TextField(blank=True, null=True, default='title is unavailable')
     tagline = models.TextField(blank=True, null=True)
     overview = models.TextField(blank=True, null=True)
     popularity = models.FloatField(blank=True, null=True)
@@ -19,8 +19,7 @@ class Movie(models.Model):
     release_date = models.DateField(blank=True, null=True)
     vote_average = models.FloatField(blank=True, null=True)
     vote_count = models.IntegerField(blank=True, null=True)
-    image = models.ImageField(blank=True, null=True, upload_to='movies')
-    
+    image = models.ImageField(blank=True, null=True, upload_to='movies', default='img/no-image.jpg')
     class Meta:
         ordering = ['created']
 
