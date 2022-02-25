@@ -14,6 +14,10 @@ import os
 from pathlib import Path
 
 import dj_database_url
+import environ
+
+env = environ.Env()
+environ.Env.read_env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -23,13 +27,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'django-insecure-q&*w(0(y16s#@mp#)uj&ldyp92xlek^z(+euqe#6_o40#c#(4l')
+
+SECRET_KEY = env('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv('DJANGO_DEBUG', True)
+DEBUG = env('DJANGO_DEBUG')
 
 # ALLOWED_HOSTS = []
-ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS', '*').split(' ')
+ALLOWED_HOSTS = env('DJANGO_ALLOWED_HOSTS').split(' ')
 # ALLOWED_HOSTS = ['*']
 
 # Application definition
@@ -85,11 +90,12 @@ WSGI_APPLICATION = 'moviestore.wsgi.application'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 DATABASES = {
     'default': {
-        'ENGINE': os.environ.get('DJANGO_DB_CON_ENGINE', "django.db.backends.postgresql"),
-        'NAME': os.environ.get('DJANGO_DB_CON_NAME', "postgres"),
-        'USER': os.environ.get('DJANGO_DB_CON_USER', "postgres"),
-        'PASSWORD': os.environ.get('DJANGO_DB_CON_PASSWORD', "postgres"),
-        'PORT': os.environ.get('DJANGO_DB_CON_PORT', 5432),
+        'ENGINE': env('DJANGO_DB_CON_ENGINE'),
+        'NAME': env('DJANGO_DB_CON_NAME'),
+        'USER': env('DJANGO_DB_CON_USER'),
+        'PASSWORD': env('DJANGO_DB_CON_PASSWORD'),
+        'HOST': env('DJANGO_DB_CON_HOST'),
+        'PORT': env('DJANGO_DB_CON_PORT')
     }
     # 'default': dj_database_url.config(conn_max_age=600, ssl_require=True) # for dj-database-url
     # 'default': {
@@ -136,11 +142,15 @@ USE_TZ = True
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATIC_URL = 'static/'
 STATICFILES = os.path.join(BASE_DIR, 'static')
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+
+# STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+
+STATICFILES_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
+DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
+GS_BUCKET_NAME = env('GS_BUCKET_NAME')
 
 MEDIA_URL = 'media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
