@@ -154,7 +154,7 @@ def mockImage(request):
         for index, item in enumerate(data):
             print(item['image'], settings.PROJECT_PATH+"/media/movies/"+str(index)+".jpg")
             urllib.request.urlretrieve(item['image'], settings.PROJECT_PATH+"/media/movies/"+str(index)+".jpg")
-        movies = Movie.objects.filter(image='').all()
+        movies = Movie.objects.all()
         
         for item in movies:
             item.image = 'movies/'+str(random.choice(range(1,20)))+'.jpg'
